@@ -28,6 +28,8 @@ public interface LoginServiceAsync {
 	void getLoginSpec(AsyncCallback<LoginSpec> callback);
 
 	void login(String userName, String password, AsyncCallback<User> callback);
+	
+	void loginWithTicket(String ticket, AsyncCallback<User> callback);
 
 	void logout(AsyncCallback<Void> callback);
 

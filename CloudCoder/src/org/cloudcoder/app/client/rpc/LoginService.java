@@ -61,4 +61,6 @@ public interface LoginService extends RemoteService {
 	 * @return list of (server-side) webapp init errors
 	 */
 	public String[] getInitErrorList();
+
+	User loginWithTicket(String ticket);
 }

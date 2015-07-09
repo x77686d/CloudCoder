@@ -52,6 +52,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -100,6 +101,8 @@ public class CloudCoder implements EntryPoint, Subscriber {
 	}
 
 	private void createInitialPage() {
+		String ticket = Window.Location.getParameter("ticket");
+		GWT.log("ticket = " + ticket);
 		// See if a URL fragment was specified, and if so, see if it
 		// identifies a valid page.
 		
@@ -148,17 +151,54 @@ public class CloudCoder implements EntryPoint, Subscriber {
 			@Override
 			public void onSuccess(User result) {
 				if (result == null) {
-					// Not logged in, so show LoginPage
-					LoginPage loginPage = new LoginPage();
-					if (linkPageId != null) {
-						GWT.log("Login page will redirect to " + linkPageId + ":" + linkPageParams);
-						// A page was linked in the original URL,
-						// so have the LoginPage try to navigate to it
-						// on a successful login.
-						loginPage.setLinkPageId(linkPageId);
-						loginPage.setLinkPageParams(linkPageParams);
+					String loginParam = Window.Location.getParameter("login");
+					String ticket = Window.Location.getParameter("ticket");
+					GWT.log("in onSuccess(), ticket = " + ticket);
+					if ("yes".equals(loginParam)) {
+						// Not logged in, so show LoginPage
+						LoginPage loginPage = new LoginPage();
+						if (linkPageId != null) {
+							GWT.log("Login page will redirect to " + linkPageId + ":" + linkPageParams);
+							// A page was linked in the original URL,
+							// so have the LoginPage try to navigate to it
+							// on a successful login.
+							loginPage.setLinkPageId(linkPageId);
+							loginPage.setLinkPageParams(linkPageParams);
+						}
+						changePage(loginPage);
+					} else if (ticket == null) {
+						// No ticket -- do a redirect to get a ticket
+	
+						Window.Location.replace("https://webauth.arizona.edu/webauth/login?service=https://practice.cs.arizona.edu");
+					} else if (ticket != null) {
+						GWT.log("got a ticket: " + ticket);
+						RPC.loginService.loginWithTicket(ticket, new AsyncCallback<User>() {
+							@Override
+							public void onSuccess(User result) {
+								// JUST A COPY OF CODE BELOW...
+								// User is logged in!
+								final User user = result;
+
+								// Add user to session
+								session.add(user);
+
+								// If a page id was specified as part of the original URL,
+								// try to navigate to it.
+								if (linkPageId != null) {
+									GWT.log("Already logged in, linking page " + linkPageId + ":" + linkPageParams);
+									CloudCoderPage page = createPageForPageId(linkPageId, linkPageParams);
+									changePage(page);
+								} else {
+									// Default behavior: navigate to the home page
+									changePage(new CoursesAndProblemsPage2());
+								}
+							}
+							@Override
+							public void onFailure(Throwable caught) {
+							}
+
+						});
 					}
-					changePage(loginPage);
 				} else {
 					// User is logged in!
 					final User user = result;

@@ -18,6 +18,11 @@
 
 package org.cloudcoder.app.server.rpc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -159,4 +164,27 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		List<String> initErrorList = InitErrorList.instance().getErrorList();
 		return initErrorList.toArray(new String[initErrorList.size()]);
 	}
+	
+	@Override
+	public User loginWithTicket(String ticket) {
+		System.out.println("loginWithTicket, ticket = " + ticket);
+		try {
+			URL validate;
+			validate = new URL("https://webauth.arizona.edu/webauth/validate?service=https://practice.cs.arizona.edu&ticket=" + ticket);
+			BufferedReader in = new BufferedReader(new InputStreamReader(validate.openStream()));
+			
+			String inputLine;
+			while ((inputLine = in.readLine()) != null)
+				System.out.println(inputLine);
+			in.close();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

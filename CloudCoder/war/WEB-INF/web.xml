@@ -26,7 +26,7 @@
   <context-param>
     <!-- MySQL password. -->
     <param-name>cloudcoder.db.passwd</param-name>
-    <param-value>root</param-value>
+    <param-value></param-value> <!--  s/root// by whm -->
   </context-param>
   <context-param>
     <!-- Name of MySQL database where the CloudCoder tables are. -->
@@ -55,7 +55,7 @@
   -->
   <context-param>
     <param-name>cloudcoder.db.checkmacos</param-name>
-    <param-value>true</param-value>
+    <param-value></param-value> <!--  s/root// by whm -->
   </context-param>
   <context-param>
     <!-- Port that the out of process submit service will listen on
@@ -163,6 +163,17 @@
     <servlet-name>Run</servlet-name>
     <url-pattern>/cloudcoder/run</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Servlet1</servlet-name>
+    <servlet-class>whm.Servlet1</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Servlet1</servlet-name>
+    <url-pattern>/cloudcoder/s1</url-pattern>
+  </servlet-mapping>
+ 
   
   <!-- Admin servlets. -->
   <servlet>
