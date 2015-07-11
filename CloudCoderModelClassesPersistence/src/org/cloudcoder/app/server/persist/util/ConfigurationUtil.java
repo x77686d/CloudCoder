@@ -524,5 +524,29 @@ public class ConfigurationUtil
         DBUtil.storeModelObject(conn, courseReg);
         return true;
     }
+    
+    /**
+     * Create a user if the user doesn't already exist.
+     */
+    public static User addNetidUserIfNeeded(Connection conn, String netid)
+    		throws SQLException
+    {
+        User user=findUser(conn, netid);
+        if (user!=null) {
+            return user;
+        } else {
+            user = new User();
+            user.setUsername(netid);
+            user.setFirstname("First");
+            user.setLastname("Last");
+            user.setEmail(netid + "@email.arizona.edu");
+            user.setPasswordHash("*");
+            user.setWebsite("none");
+            DBUtil.storeModelObject(conn, user);
+            return user;
+        }
+    }
+    
+
 
 }

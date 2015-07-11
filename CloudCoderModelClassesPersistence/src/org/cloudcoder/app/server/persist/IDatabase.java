@@ -720,4 +720,6 @@ public interface IDatabase {
 	 */
 	public List<Pair<Event, Change>> getEventsWithChanges(int userId,
 			int problemId, int startEventId, int endEventId);
+
+	User addNetidUserIfNeeded(String netid);
 }

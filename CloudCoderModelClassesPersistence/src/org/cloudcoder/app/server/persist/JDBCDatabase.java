@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.cloudcoder.app.server.persist.txn.AddNetidUserIfNeeded;
 import org.cloudcoder.app.server.persist.txn.AddRepoProblemTag;
 import org.cloudcoder.app.server.persist.txn.AddTestCasesToProblem;
 import org.cloudcoder.app.server.persist.txn.AddUserRegistrationRequest;
@@ -507,6 +508,13 @@ public class JDBCDatabase implements IDatabase {
 	public List<Pair<Event, Change>> getEventsWithChanges(int userId, int problemId, int startEventId, int endEventId) {
 		return databaseRun(new GetEventsWithChanges(userId, problemId, startEventId, endEventId));
 	}
+	
+	@Override
+	public User addNetidUserIfNeeded(String netid) {
+		return databaseRun(new AddNetidUserIfNeeded(netid));
+	}
+	
+
 
 	/**
 	 * Run a database transaction and return the result.

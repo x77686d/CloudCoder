@@ -169,14 +169,54 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	public User loginWithTicket(String ticket) {
 		System.out.println("loginWithTicket, ticket = " + ticket);
 		try {
-			URL validate;
-			validate = new URL("https://webauth.arizona.edu/webauth/validate?service=https://practice.cs.arizona.edu&ticket=" + ticket);
-			BufferedReader in = new BufferedReader(new InputStreamReader(validate.openStream()));
+			String netid = null;
+
+			if (ticket.charAt(0) == '@') { // for testing!
+				String[] ticketParts = ticket.substring(1).split("/");
+				if (ticketParts[0].equals("yes")) {
+					netid = ticketParts[1];
+				}
+			} else {
+
+				URL validate;
+				validate = new URL("https://webauth.arizona.edu/webauth/validate?service=https://practice.cs.arizona.edu&ticket=" + ticket);
+				BufferedReader in = new BufferedReader(new InputStreamReader(validate.openStream()));
+
+				String status = in.readLine();
+				System.out.println("read status = " + status);
+				if ("yes".equals(status)) {
+					netid = in.readLine();
+					System.out.println("read netid = '" + netid + "'");
+				}
+				in.close();
+			}
 			
-			String inputLine;
-			while ((inputLine = in.readLine()) != null)
-				System.out.println(inputLine);
-			in.close();
+			if (netid != null) {
+				User user = Database.getInstance().addNetidUserIfNeeded(netid);
+
+				// Following code lifted from LoginServiceImpl.login(...)
+				if (user != null) {
+					// Set User object in server HttpSession so that other
+					// servlets will know that the client is logged in
+					HttpSession session = getThreadLocalRequest().getSession();
+					session.setAttribute(SessionAttributeKeys.USER_KEY, user);
+					
+					// Set session timeout.
+					int maxInactive = SESSION_TIMEOUT_IN_SECONDS;
+					if (DEBUG_SESSION_TIMEOUTS) {
+						// This is useful for testing automatic retry of RPC calls
+						// that fail because of a server session timeout:
+						// expires server sessions after 20 seconds of inactivity.
+						maxInactive = 20;
+					}
+					session.setMaxInactiveInterval(maxInactive);
+				}
+				
+				return user;
+			} else {
+				return null;
+			}
+
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
