@@ -104,4 +104,12 @@ public class PageStack extends Publisher {
 	public void setNotifications(boolean b) {
 		this.notifications = b;
 	}
+	
+	public String toString() {
+		String result = "PageStack: (" + stack.size() + " elements): ";
+		for (PageId id: stack) {
+			result += id.name();
+		}
+		return result;
+	}
 }

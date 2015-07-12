@@ -181,7 +181,14 @@ public class CloudCoder implements EntryPoint, Subscriber {
 
 								// Add user to session
 								session.add(user);
+								
+								CloudCoder.getInstance().createPostLoginPage(PageId.COURSES_AND_PROBLEMS, "");
+								
+								// Now we're logged in.  Hit the page again to clear the ticket= param
+								//Window.Location.replace("https://practice.cs.arizona.edu");
+								//Window.Location.replace(".");
 
+/*
 								// If a page id was specified as part of the original URL,
 								// try to navigate to it.
 								if (linkPageId != null) {
@@ -192,6 +199,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 									// Default behavior: navigate to the home page
 									changePage(new CoursesAndProblemsPage2());
 								}
+*/
 							}
 							@Override
 							public void onFailure(Throwable caught) {
@@ -367,6 +375,8 @@ public class CloudCoder implements EntryPoint, Subscriber {
 		// This is where we monitor for events that indicate page changes.
 		// The PageStack makes this pretty straightforward.
 		if (key == PageStack.Event.PAGE_CHANGE) {
+			PageStack stack = session.get(PageStack.class);
+			GWT.log("PAGE_CHANGE: stack = " + stack);
 			PageId current = session.get(PageStack.class).getTop();
 			changePage(createPageForPageId(current));
 		} else if (key == Session.Event.LOGOUT) {

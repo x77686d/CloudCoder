@@ -93,6 +93,7 @@
 		Build a single executable jarfile.
 	-->
 	<target name="jar" depends="checkDistBuild,build">
+		<echo message="zipfileset file=${cloudcoderKeystoreSource} fullpath=${cloudcoderKeystoreTarget}"/>
 		<jar destfile="${jarname}" update="true">
 			<zipgroupfileset dir="lib" includes="**.jar"/>
 			<zipgroupfileset dir="../CloudCoderLogging/lib" includes="*.jar"/>
