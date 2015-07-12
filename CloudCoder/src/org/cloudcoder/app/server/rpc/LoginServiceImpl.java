@@ -33,6 +33,7 @@ import org.cloudcoder.app.server.login.ILoginProvider;
 import org.cloudcoder.app.server.login.LoginProviderServletContextListener;
 import org.cloudcoder.app.server.persist.Database;
 import org.cloudcoder.app.server.persist.InitErrorList;
+import org.cloudcoder.app.server.persist.util.DBUtil;
 import org.cloudcoder.app.shared.model.ConfigurationSetting;
 import org.cloudcoder.app.shared.model.ConfigurationSettingName;
 import org.cloudcoder.app.shared.model.InitErrorException;
@@ -171,7 +172,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		try {
 			String netid = null;
 
-			if (ticket.charAt(0) == '@') { // for testing!
+			if (ticket.charAt(0) == '@' && "true".equals(DBUtil.getConfigProperties().getProperty("testMode"))) { // for testing!
 				String[] ticketParts = ticket.substring(1).split("/");
 				if (ticketParts[0].equals("yes")) {
 					netid = ticketParts[1];

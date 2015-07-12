@@ -17,6 +17,7 @@
 
 package org.cloudcoder.app.server.persist.util;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -534,17 +535,28 @@ public class ConfigurationUtil
         User user=findUser(conn, netid);
         if (user!=null) {
             return user;
-        } else {
-            user = new User();
-            user.setUsername(netid);
-            user.setFirstname("First");
-            user.setLastname("Last");
-            user.setEmail(netid + "@email.arizona.edu");
-            user.setPasswordHash("*");
-            user.setWebsite("none");
-            DBUtil.storeModelObject(conn, user);
-            return user;
         }
+        
+        try {
+			if ("true".equals(DBUtil.getConfigProperties().getProperty("autoCreateNetidUsers"))){
+			    user = new User();
+			    user.setUsername(netid);
+			    user.setFirstname("First");
+			    user.setLastname("Last");
+			    user.setEmail(netid + "@email.arizona.edu");
+			    user.setPasswordHash("*");
+			    user.setWebsite("none");
+			    DBUtil.storeModelObject(conn, user);
+			    return user;
+			} else {
+				return null;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return null;
     }
     
 
