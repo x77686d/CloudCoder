@@ -44,6 +44,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import edu.arizona.cs.EDSDataService;
+
 /**
  * Implementation of {@link LoginService}.
  * The actual authentication decision is made by whatever
@@ -192,31 +194,39 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				in.close();
 			}
 			
-			if (netid != null) {
-				User user = Database.getInstance().addNetidUserIfNeeded(netid);
-
-				// Following code lifted from LoginServiceImpl.login(...)
-				if (user != null) {
-					// Set User object in server HttpSession so that other
-					// servlets will know that the client is logged in
-					HttpSession session = getThreadLocalRequest().getSession();
-					session.setAttribute(SessionAttributeKeys.USER_KEY, user);
-					
-					// Set session timeout.
-					int maxInactive = SESSION_TIMEOUT_IN_SECONDS;
-					if (DEBUG_SESSION_TIMEOUTS) {
-						// This is useful for testing automatic retry of RPC calls
-						// that fail because of a server session timeout:
-						// expires server sessions after 20 seconds of inactivity.
-						maxInactive = 20;
-					}
-					session.setMaxInactiveInterval(maxInactive);
-				}
-				
-				return user;
-			} else {
+			if (netid == null)
 				return null;
+			
+			/*
+			//List<Registration> registrations = UAEDS.getInstance().getRegistrationsForNetid(netid);
+			EDSData edsData = EDSDataService.getInstance().getDataForNetId(netid);
+			if (edsData.getCourses().size == 0)
+				return null;
+			*/
+			
+			
+			User user = Database.getInstance().addNetidUserIfNeeded(netid);
+			
+			
+
+			// Following code lifted from LoginServiceImpl.login(...)
+			if (user != null) {
+				// Set User object in server HttpSession so that other
+				// servlets will know that the client is logged in
+				HttpSession session = getThreadLocalRequest().getSession();
+				session.setAttribute(SessionAttributeKeys.USER_KEY, user);
+				
+				// Set session timeout.
+				int maxInactive = SESSION_TIMEOUT_IN_SECONDS;
+				if (DEBUG_SESSION_TIMEOUTS) {
+					// This is useful for testing automatic retry of RPC calls
+					// that fail because of a server session timeout:
+					// expires server sessions after 20 seconds of inactivity.
+					maxInactive = 20;
+				}
+				session.setMaxInactiveInterval(maxInactive);
 			}
+			return user;
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
