@@ -22,33 +22,35 @@ import java.sql.SQLException;
 
 import org.cloudcoder.app.server.persist.util.AbstractDatabaseRunnableNoAuthException;
 import org.cloudcoder.app.server.persist.util.ConfigurationUtil;
-import org.cloudcoder.app.shared.model.User;
+import org.cloudcoder.app.shared.model.CourseRegistrationType;
 
 /**
-* Transaction to add a UA user to a course
+* Transaction to add UA student to a course
 */
-public class AddNetidUser extends
-		AbstractDatabaseRunnableNoAuthException<User> {
-	private final String netid;
-	private final String givenName;
-	private final String lastName;
+public class AddNetidStudentToCourse  extends
+		AbstractDatabaseRunnableNoAuthException<Boolean> {
 
-	public AddNetidUser(String netid, String givenName, String lastName) {
-		this.netid = netid;
-		this.givenName = givenName;
-		this.lastName = lastName;
+	private final int studentId;
+	private final int courseId;
+	private final int encodedSection;
+
+	public AddNetidStudentToCourse(int studentId, int courseId,
+			int encodedSection) {
+		this.studentId = studentId;
+		this.courseId = courseId;
+		this.encodedSection = encodedSection;
 	}
+
 
 	@Override
-	public User run(Connection conn) throws SQLException {
-		User user = ConfigurationUtil.addNetidUser(conn, netid, givenName, lastName);
+	public Boolean run(Connection conn) throws SQLException {
+		boolean result = ConfigurationUtil.registerUser(conn, studentId, courseId, CourseRegistrationType.STUDENT, encodedSection);
 		
-		return user;
+		return result;
 	}
-
 
 	@Override
 	public String getDescription() {
-		return " adding Netid user if needed";
+		return " adding Netid student to course if needed";
 	}
 }

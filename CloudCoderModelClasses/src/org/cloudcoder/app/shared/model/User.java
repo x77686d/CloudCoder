@@ -220,4 +220,8 @@ public class User implements Serializable, IModelObject<User> {
     public void setConsent(String consent) {
         this.consent = consent;
     }
+    
+    public String toString() {
+    	return "User: {userName=" + userName + ", id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + "}";
+    }
 }

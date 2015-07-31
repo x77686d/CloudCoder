@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import org.cloudcoder.app.server.login.ILoginProvider;
 import org.cloudcoder.app.server.login.LoginProviderServletContextListener;
 import org.cloudcoder.app.server.persist.Database;
 import org.cloudcoder.app.server.persist.InitErrorList;
+import org.cloudcoder.app.server.persist.util.ConfigurationUtil;
 import org.cloudcoder.app.server.persist.util.DBUtil;
 import org.cloudcoder.app.shared.model.ConfigurationSetting;
 import org.cloudcoder.app.shared.model.ConfigurationSettingName;
@@ -44,7 +46,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import edu.arizona.cs.EDSDataService;
+import edu.arizona.cs.Registration.RegistrationType;
+import edu.arizona.cs.practice.EDSConfig;
+import edu.arizona.cs.practice.EDSCourse;
+import edu.arizona.cs.practice.EDSData;
+import edu.arizona.cs.practice.EDSService;
 
 /**
  * Implementation of {@link LoginService}.
@@ -170,15 +176,17 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	
 	@Override
 	public User loginWithTicket(String ticket) {
-		System.out.println("loginWithTicket, ticket = " + ticket);
+		logger.info("ticket = {}", ticket);
 		try {
 			String netid = null;
 
 			if (ticket.charAt(0) == '@' && "true".equals(DBUtil.getConfigProperties().getProperty("testMode"))) { // for testing!
+				logger.info("accepting TESTMODE ticket");
 				String[] ticketParts = ticket.substring(1).split("/");
 				if (ticketParts[0].equals("yes")) {
 					netid = ticketParts[1];
 				}
+				logger.info("TESTMODE ticket netid = {}", netid);
 			} else {
 
 				URL validate;
@@ -186,28 +194,59 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				BufferedReader in = new BufferedReader(new InputStreamReader(validate.openStream()));
 
 				String status = in.readLine();
+				logger.info("webauth line 1 (status) = '{}'", status);
 				System.out.println("read status = " + status);
 				if ("yes".equals(status)) {
 					netid = in.readLine();
-					System.out.println("read netid = '" + netid + "'");
+					logger.info("webauth line 2 (netid) = '{}'", netid);
 				}
 				in.close();
 			}
 			
 			if (netid == null)
 				return null;
+
+			//
+			// See if the user has an account
+			User user = Database.getInstance().getUserWithoutAuthentication(netid);
+			logger.info("getUserWithoutAuthentication({}) = {}", netid, user);
 			
-			/*
-			//List<Registration> registrations = UAEDS.getInstance().getRegistrationsForNetid(netid);
-			EDSData edsData = EDSDataService.getInstance().getDataForNetId(netid);
-			if (edsData.getCourses().size == 0)
-				return null;
-			*/
+			//
+			// Get their data from UA's enterprise data services
+			EDSConfig edsConfig = new EDSConfig(DBUtil.getConfigProperties());
+			EDSData edsData = new EDSService().getData(netid, edsConfig);
+			logger.info("EDSData for {} = {}", netid, edsData);
 			
+			ArrayList<EDSCourse> courses = edsData.getCourses();
 			
-			User user = Database.getInstance().addNetidUserIfNeeded(netid);
+			if (courses.size() == 0 && user == null) {
+				//
+				// User doesn't exist and isn't taking any courses that use CC.
+				return null; // TODO really need some indication that what we've detected is that
+							 // that they're not registered for anything
+			}
 			
-			
+			if (courses.size() > 0  && user == null) {
+				//
+				// User has CC courses but isn't registered
+				logger.info("unregistered user {} with courses {}; registering them", netid, courses);
+				user = Database.getInstance().addNetidUser(netid, edsData.getGivenName(), edsData.getLastName());
+				}
+				
+			//
+			// Loop through any courses, trying to register user for each.  If addNetidUserToCourse returns false, they
+			// were already registered for it.
+			for (EDSCourse course: courses) {
+				String description = String.format("%s (id=%d), section=%d", course.getMembership(), course.getCourseId(), course.getEncodedSection());
+				String result;
+				boolean added = Database.getInstance().addNetidStudentToCourse(user.getId(), course.getCourseId(), course.getEncodedSection());
+				if (added)
+					result = String.format("added %s to", netid);
+				else
+					result = String.format("%s already in", netid);
+				
+				logger.info("addNetidStudentToCourse: {} {}", result, description);
+			}
 
 			// Following code lifted from LoginServiceImpl.login(...)
 			if (user != null) {
@@ -233,6 +272,8 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

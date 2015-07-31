@@ -721,5 +721,7 @@ public interface IDatabase {
 	public List<Pair<Event, Change>> getEventsWithChanges(int userId,
 			int problemId, int startEventId, int endEventId);
 
-	User addNetidUserIfNeeded(String netid);
+	User addNetidUser(String netid, String givenName, String lastName);
+
+	public boolean addNetidStudentToCourse(int id, int courseId, int encodedSection);
 }

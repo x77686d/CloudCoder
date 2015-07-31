@@ -24,7 +24,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudcoder.app.server.persist.txn.AddNetidUserIfNeeded;
+import org.cloudcoder.app.server.persist.txn.AddNetidStudentToCourse;
+import org.cloudcoder.app.server.persist.txn.AddNetidUser;
 import org.cloudcoder.app.server.persist.txn.AddRepoProblemTag;
 import org.cloudcoder.app.server.persist.txn.AddTestCasesToProblem;
 import org.cloudcoder.app.server.persist.txn.AddUserRegistrationRequest;
@@ -510,12 +511,17 @@ public class JDBCDatabase implements IDatabase {
 	}
 	
 	@Override
-	public User addNetidUserIfNeeded(String netid) {
-		return databaseRun(new AddNetidUserIfNeeded(netid));
+	public User addNetidUser(String netid, String givenName, String lastName) {
+		return databaseRun(new AddNetidUser(netid, givenName, lastName));
 	}
 	
+    @Override
+    public boolean addNetidStudentToCourse(int studentId, int courseId, int encodedSection) {
+    	return databaseRun(new AddNetidStudentToCourse(studentId, courseId, encodedSection));
+    }
 
 
+	
 	/**
 	 * Run a database transaction and return the result.
 	 * This method is for transactions that extend {@link AbstractDatabaseRunnableNoAuthException}

@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!--
+	  Simple Java project that uses Apache Commons StringUtil
+        created with  mvn archetype:generate.  Queried for java and selected com.rudolfschmidt:javase7-essentials-archetype
+		
+	  Do:
+	    JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+		mvn compile
+		mvn exec:java -Dexec.mainClass=com.msweng.Hello
+
+	  Imported ok into Eclipse Luna, 07/28/15
+	-->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>edu.arizona.cs.practice</groupId>
+    <artifactId>edstest</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>aid</name>
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.testSource>1.7</maven.compiler.testSource>
+        <maven.compiler.testTarget>1.7</maven.compiler.testTarget>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+	<dependencies>
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>4.5</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-api</artifactId>
+		  <version>1.7.12</version>
+		</dependency>
+		<dependency>
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-log4j12</artifactId>
+		  <version>1.7.12</version>
+		</dependency>
+    </dependencies>
+</project>

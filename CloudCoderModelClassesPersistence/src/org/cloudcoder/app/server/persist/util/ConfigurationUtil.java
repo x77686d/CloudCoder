@@ -528,35 +528,22 @@ public class ConfigurationUtil
     
     /**
      * Create a user if the user doesn't already exist.
+     * @param netid
+     * @param givenName
+     * @param lastName
      */
-    public static User addNetidUserIfNeeded(Connection conn, String netid)
+    public static User addNetidUser(Connection conn, String netid, String givenName, String lastName)
     		throws SQLException
     {
-        User user=findUser(conn, netid);
-        if (user!=null) {
-            return user;
-        }
-        
-        try {
-			if ("true".equals(DBUtil.getConfigProperties().getProperty("autoCreateNetidUsers"))){
-			    user = new User();
-			    user.setUsername(netid);
-			    user.setFirstname("First");
-			    user.setLastname("Last");
-			    user.setEmail(netid + "@email.arizona.edu");
-			    user.setPasswordHash("*");
-			    user.setWebsite("none");
-			    DBUtil.storeModelObject(conn, user);
-			    return user;
-			} else {
-				return null;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        return null;
+        User user = new User();
+	    user.setUsername(netid);
+	    user.setFirstname(givenName);
+	    user.setLastname(lastName);
+	    user.setEmail(netid + "@email.arizona.edu");
+	    user.setPasswordHash("*");
+	    user.setWebsite("none");
+	    DBUtil.storeModelObject(conn, user);
+	    return user;
     }
     
 
