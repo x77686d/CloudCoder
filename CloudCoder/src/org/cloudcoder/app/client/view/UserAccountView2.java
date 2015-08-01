@@ -84,6 +84,7 @@ public class UserAccountView2 extends ResizeComposite implements Subscriber, Ses
 		panel.setWidgetLeftRight(userIdentityLabel, 40.0, Unit.PX, 0.0, Unit.PX);
 		panel.setWidgetTopHeight(userIdentityLabel, top, Unit.PX, 24.0, Unit.PX);
 		
+		/*
 		Label passwordChangeLabel = new Label("Change your password");
 		passwordChangeLabel.setStyleName("cc-sectionLabel", true);
 		panel.add(passwordChangeLabel);
@@ -120,6 +121,7 @@ public class UserAccountView2 extends ResizeComposite implements Subscriber, Ses
 				handleEditButtonClick();
 			}
 		});
+		*/
 		
 		// UI for viewing progress in course
 		
@@ -127,17 +129,17 @@ public class UserAccountView2 extends ResizeComposite implements Subscriber, Ses
 		viewProgressLabel.setStyleName("cc-sectionLabel", true);
 		panel.add(viewProgressLabel);
 		panel.setWidgetLeftWidth(viewProgressLabel, 40.0, Unit.PX, 540.0, Unit.PX);
-		panel.setWidgetTopHeight(viewProgressLabel, top + 280.0, Unit.PX, 24.0, Unit.PX);
+		panel.setWidgetTopHeight(viewProgressLabel, top + 40.0, Unit.PX, 24.0, Unit.PX);
 		
 		Label selectCourseLabel = new Label("Select a course:");
 		panel.add(selectCourseLabel);
 		panel.setWidgetLeftRight(selectCourseLabel, 40.0, Unit.PX, 0.0, Unit.PX);
-		panel.setWidgetTopHeight(selectCourseLabel, top + 320.0, Unit.PX, 16.0, Unit.PX);
+		panel.setWidgetTopHeight(selectCourseLabel, top + 80.0, Unit.PX, 16.0, Unit.PX);
 		
 		this.courseSelectionList = new CourseSelectionListBox(page);
 		panel.add(courseSelectionList);
 		panel.setWidgetLeftWidth(courseSelectionList, 40.0, Unit.PX, 200.0, Unit.PX);
-		panel.setWidgetTopHeight(courseSelectionList, top + 340.0, Unit.PX, 120.0, Unit.PX);
+		panel.setWidgetTopHeight(courseSelectionList, top + 100.0, Unit.PX, 120.0, Unit.PX);
 		
 		this.userProgressButton = new Button("View progress", new ClickHandler() {
 			@Override
@@ -146,8 +148,8 @@ public class UserAccountView2 extends ResizeComposite implements Subscriber, Ses
 			}
 		});
 		panel.add(userProgressButton);
-		panel.setWidgetLeftWidth(userProgressButton, 320.0, Unit.PX, 200.0, Unit.PX);
-		panel.setWidgetTopHeight(userProgressButton, top + 340.0, Unit.PX, 32.0, Unit.PX);
+		panel.setWidgetLeftWidth(userProgressButton, 280.0, Unit.PX, 200.0, Unit.PX);
+		panel.setWidgetTopHeight(userProgressButton, top + 100.0, Unit.PX, 32.0, Unit.PX);
 
 		// Allow the view to scroll if necessary
 		scrollPanel = new ScrollPanel();
