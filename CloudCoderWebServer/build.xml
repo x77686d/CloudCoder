@@ -73,6 +73,11 @@
 		<ant inheritall="false" dir="../CloudCoderJetty" target="jar"/>
 	</target>
 	
+	<!-- Target to build the CloudCoder Jetty library. -->
+	<target name="edsService">
+		<ant inheritall="false" dir="../EDSService" target="jar"/>
+	</target>
+	
 	<!--
 		Depending on whether or not this is a distribution build, decide
 		which cloudcoder.properties to use (dummy or real) and
@@ -125,7 +130,7 @@
 		Target to build a single deployable jarfile containing both
 		the webapp (and required libraries) and Jetty (the web server).
 	-->
-	<target name="jar" depends="checkDistBuild,build,modelClasses,modelClassesPersistence,modelClassesJSON,submissionQueue,webapp">
+	<target name="jar" depends="checkDistBuild,build,modelClasses,modelClassesPersistence,modelClassesJSON,submissionQueue,edsService,webapp">
 		
 		<!--
 			Build single deployable jarfile containing our launcher code,
@@ -179,6 +184,11 @@
 				file="../CloudCoderSubmissionQueueServletContextListener/cloudcoderSubmissionQueueServletContextListener.jar"
 				fullpath="war/WEB-INF/lib/cloudcoderSubmissionQueueServletContextListener.jar"/>
 
+			<!-- Include the EDSService jar file in the webapp's WEB-INF/lib. -->
+			<zipfileset
+				file="../EDSService/EDSService.jar"
+				fullpath="war/WEB-INF/lib/EDSService.jar"/>
+			
 			<!-- Include GWT requestfactory-server.jar if needed. -->
 			<zipfileset file="${requestFactorySource}" fullpath="${requestFactoryTarget}"/>
 			
@@ -224,5 +234,6 @@
 		<ant inheritall="false" dir="../CloudCoderSubmissionQueue" target="clean"/>
 		<ant inheritall="false" dir="../CloudCoderSubmissionQueueServletContextListener" target="clean"/>
 		<ant inheritall="false" dir="../CloudCoderJetty" target="clean"/>
+		<ant inheritall="false" dir="../EDSService" target="clean"/>
 	</target>
 </project>

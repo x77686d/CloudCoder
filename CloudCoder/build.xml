@@ -21,6 +21,7 @@
   	<pathelement location="../CloudCoderModelClassesJSON/cloudcoderModelClassesJSON.jar"/>
   	<pathelement location="../CloudCoderSubmissionQueue/cloudcoderSubmissionQueue.jar"/>
   	<pathelement location="../CloudCoderSubmissionQueueServletContextListener/cloudcoderSubmissionQueueServletContextListener.jar"/>
+  	<pathelement location="../EDSService/EDSService.jar"/>
   	
   	<!-- GWT stuff -->
     <pathelement location="war/WEB-INF/classes"/>
@@ -217,6 +218,9 @@ Test targets suppressed because -junit argument was not specified when running w
 
   <target name="hosted" depends="devmode" description="Run development mode (NOTE: the 'hosted' target is deprecated)" />
 
+<!--
+  <target name="build" depends="" description="Build this project" />
+ -->
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">

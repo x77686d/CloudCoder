@@ -6,7 +6,7 @@
         created with  mvn archetype:generate.  Queried for java and selected com.rudolfschmidt:javase7-essentials-archetype
 		
 	  Do:
-	    JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+	    export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 		mvn compile
 		mvn exec:java -Dexec.mainClass=com.msweng.Hello
 
@@ -33,12 +33,17 @@
 		<dependency>
 		  <groupId>org.slf4j</groupId>
 		  <artifactId>slf4j-api</artifactId>
-		  <version>1.7.12</version>
+		  <version>1.6.4</version>
 		</dependency>
 		<dependency>
 		  <groupId>org.slf4j</groupId>
 		  <artifactId>slf4j-log4j12</artifactId>
-		  <version>1.7.12</version>
+		  <version>1.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
 		</dependency>
     </dependencies>
 </project>

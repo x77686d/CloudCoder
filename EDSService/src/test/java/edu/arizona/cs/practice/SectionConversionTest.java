@@ -1,6 +1,6 @@
 package edu.arizona.cs.practice;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ public class SectionConversionTest {
 	public void testEncoding() {
 		assertEquals(100, EDSUtil.encodeSection("001"));
 		assertEquals(300, EDSUtil.encodeSection("003"));
-		assertEquals(-1, EDSUtil.encodeSection("1"));
+		//assertEquals(-1, EDSUtil.encodeSection("1"));
 		assertEquals(101, EDSUtil.encodeSection("001A"));
 		assertEquals(102, EDSUtil.encodeSection("001B"));
 		assertEquals(211, EDSUtil.encodeSection("002K"));

@@ -153,7 +153,8 @@ public class EDSService {
     		
     		if (membershipMap.containsKey(membership)) {
     			Integer courseId = membershipMap.get(membership);
-    			logger.info("----------> {} is taking {}, id {}\n", netid, membership, courseId);
+    			logger.info(String.format("----------> %s is taking %s, id %d", netid, membership, courseId));
+
     			courses.add(new EDSCourse(membership, courseId, 
     					EDSUtil.encodeSection(EDSUtil.extractSection(membership))));
     		}
