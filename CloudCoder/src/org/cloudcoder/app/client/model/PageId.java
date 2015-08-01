@@ -68,7 +68,10 @@ public enum PageId {
 	
 	/** The development page for writing and executing code 
 	 * not attached to particular exercises. */
-	PLAYGROUND_PAGE("playground");
+	PLAYGROUND_PAGE("playground"),
+	
+	/** Post-logout page for UA */
+	LOGGEDOUT("loggedout");
 	
 	private PageId(String fragmentName) {
 		this.fragmentName = fragmentName;

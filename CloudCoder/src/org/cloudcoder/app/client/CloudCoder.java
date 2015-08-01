@@ -28,6 +28,8 @@ import org.cloudcoder.app.client.page.CoursesAndProblemsPage3;
 import org.cloudcoder.app.client.page.DevelopmentPage;
 import org.cloudcoder.app.client.page.EditProblemPage;
 import org.cloudcoder.app.client.page.InitErrorPage;
+import org.cloudcoder.app.client.page.LoggedOutPage;
+import org.cloudcoder.app.client.page.LoggedOutPage2;
 import org.cloudcoder.app.client.page.LoginPage;
 import org.cloudcoder.app.client.page.PlaygroundPage;
 import org.cloudcoder.app.client.page.ProblemAdminPage;
@@ -388,7 +390,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 			session.clear();
 			pageStack.clear();
 			session.add(pageStack);
-			changePage(new LoginPage());
+			changePage(new LoggedOutPage2());
 		}
 	}
 	

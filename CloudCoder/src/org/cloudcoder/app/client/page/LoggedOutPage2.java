@@ -44,58 +44,76 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Page to show after a logout.
+ * Login page.
  */
-public class LoggedOutPage extends CloudCoderPage {
-	private static final double LOGIN_VIEW_TOP_PX = 32.0;
-	private static final double LOGIN_VIEW_WIDTH_PX = 340.0;
-	private static final double LOGIN_VIEW_HEIGHT_PX = 480.0;
-	private static final double LOGO_TOP_PX = 120.0;
+public class LoggedOutPage2 extends CloudCoderPage {
 	
 	/**
 	 * UI class for LoginPage.
 	 */
 	private class UI extends LayoutPanel implements SessionObserver {
 		private InlineLabel pageTitleLabel;
-		private ILoginView loginView;
-		protected LoginSpec loginSpec;
 		
 		public UI() {
-            VerticalPanel vp = new VerticalPanel();
-            
-            vp.setWidth("600px");
-            
-            vp.add(new HTML("You have logged out of CloudCoder"));
-            vp.add(new HTML("Log out of WebAuth, too"));
-            vp.add(new HTML("Log back in to CloudCoder"));
-
-            /*
-			Image cloudCoderLogoImage = new Image(GWT.getModuleBaseURL() + "images/CloudCoderLogo-med.png");
-			add(cloudCoderLogoImage);
-			setWidgetLeftWidth(cloudCoderLogoImage, LOGIN_VIEW_WIDTH_PX + 10.0, Unit.PX, 240.0, Unit.PX);
-			setWidgetTopHeight(cloudCoderLogoImage, LOGO_TOP_PX, Unit.PX, 165.0, Unit.PX);
-			
+			/*
 			pageTitleLabel = new InlineLabel("");
 			pageTitleLabel.setStylePrimaryName("cc-pageTitle");
 			add(pageTitleLabel);
 			setWidgetLeftWidth(pageTitleLabel, 57.0, Unit.PX, 533.0, Unit.PX);
 			setWidgetTopHeight(pageTitleLabel, 44.0, Unit.PX, 31.0, Unit.PX);
-			
-			InlineLabel welcomeLabel = new InlineLabel("Welcome to CloudCoder at");
-			add(welcomeLabel);
-			setWidgetLeftWidth(welcomeLabel, 57.0, Unit.PX, 313.0, Unit.PX);
-			setWidgetTopHeight(welcomeLabel, 23.0, Unit.PX, 15.0, Unit.PX);
+			InlineLabel loggedOutLabel = new InlineLabel("You have logged out of CloudCoder (2)");
+			loggedOutLabel.setStylePrimaryName("cc-pageTitle");
 			*/
+			
+			VerticalPanel vp = new VerticalPanel();
+            vp.setWidth("600px");
+            
+            vp.add(new HTML("<span class=cc-pageTitle>You have logged out of CloudCoder</span>"));
+            vp.add(new HTML("<a href='https://webauth.arizona.edu/webauth/logout'>Log out of WebAuth, too<a>"));
+            vp.add(new HTML("<a href='https://practice.cs.arizona.edu'>Login to CloudCoder Again<a>"));
+            add(vp);
+
 		}
 		
 		@Override
 		public void activate(Session session, SubscriptionRegistrar subscriptionRegistrar) {
-
+			RPC.loginService.getLoginSpec(new AsyncCallback<LoginSpec>() {
+				@Override
+				public void onFailure(Throwable caught) {
+					GWT.log("Failure to get LoginSpec", caught);
+				}
+				
+				public void onSuccess(LoginSpec result) {
+				}
+			});
 		}
+
 	}
 
-	public LoggedOutPage() {
-		GWT.log("Creating LoggedOutPage");
+	/**
+	 * Default constructor.
+	 * Will take the user to the {@link CoursesAndProblemsPage2}
+	 * upon a successful login.
+	 */
+	public LoggedOutPage2() {
+		GWT.log("Creating LoginPage, fragment is " + Window.Location.getHash());
+	}
+	
+	/**
+	 * Set the {@link PageId} that was specified in the original URL.
+	 * The login page should try to navigate to it on a successful login.
+	 * 
+	 * @param linkPageId the linkPageId to set
+	 */
+	public void setLinkPageId(PageId linkPageId) {
+	}
+	
+	/**
+	 * Set the page parameters that were specified in the original URL.
+	 * 
+	 * @param linkPageParams the linkPageParams to set
+	 */
+	public void setLinkPageParams(String linkPageParams) {
 	}
 
 	@Override
