@@ -64,11 +64,17 @@ import org.cloudcoder.app.shared.util.SubscriptionRegistrar;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -359,6 +365,22 @@ public class DevelopmentPage extends CloudCoderPage {
 					confirmResetDialog.center();
 				}
 			});
+			
+			HandlerRegistration keyboardShortcutHandler = Event.addNativePreviewHandler(new 
+					NativePreviewHandler() { 
+					                        public void onPreviewNativeEvent(NativePreviewEvent event) {
+					                        	GWT.log("native handler, event = " + event);
+					                        	if (event.getTypeInt() == Event.ONKEYPRESS || event.getTypeInt() == Event.ONKEYUP) {
+					                        		return;
+					                        	}
+					                                NativeEvent ne = event.getNativeEvent(); 
+					                                if ((ne.getCtrlKey() || ne.getMetaKey()) && (ne.getKeyCode()=='s' || ne.getKeyCode()=='S')) { 
+					                                        ne.preventDefault();
+					                                        doSubmit();
+					                                } 
+					                        } 
+					                }); 
+
 			
 			// Tell the server which problem we want to work on
 			setProblem(session, problem);

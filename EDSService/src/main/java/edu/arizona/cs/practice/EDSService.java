@@ -71,13 +71,13 @@ import org.w3c.dom.NodeList;
  * secure than a response to an authentication challenge
  * and therefore discouraged.
  */
-public class EDSService {
+public class EDSService implements IEDSService {
 	private static final Logger logger = LoggerFactory.getLogger(EDSService.class);
-    /**
-     * @param args
-     * @throws Exception
-     */
- 	public EDSData getData(String netid, EDSConfig edsConfig) throws Exception {
+    /* (non-Javadoc)
+	 * @see edu.arizona.cs.practice.IEDSService#getData(java.lang.String, edu.arizona.cs.practice.EDSConfig)
+	 */
+ 	@Override
+	public EDSData getData(String netid, EDSConfig edsConfig) throws Exception {
     	String req;
     	req = "/people/" + netid;
     	String xml = queryEds(req, edsConfig);
@@ -97,7 +97,7 @@ public class EDSService {
     			+ "</directory-entries>"
     			+ "</dsml:dsml>";
 
-    	logger.debug("xml for {}: {}", req, xml);
+    	logger.info("xml for {}: {}", req, xml);
     	
     	// parse the XML as a W3C Document
     	
@@ -129,11 +129,11 @@ public class EDSService {
 
     	String lastNamePath = "//dsml:attr[@name='sn']";
     	String lastName = ((String)xpath.evaluate(lastNamePath, document, XPathConstants.STRING)).trim();
-    	System.out.println("lastName = " + lastName);
+    	logger.info("for {} lastName = '{}'", req, lastName);
 
     	String givenNamePath = "//dsml:attr[@name='givenName']";
     	String givenName = ((String)xpath.evaluate(givenNamePath, document, XPathConstants.STRING)).trim();
-    	System.out.println("givenName = " + givenName);
+    	logger.info("for {} givenName = '{}'", req, givenName);
 
     	//String membersPath = "//dsml:attr[@name='isMemberOf']";
     	//String membersStr = (String)xpath.evaluate(membersPath, document, XPathConstants.STRING);
@@ -141,7 +141,8 @@ public class EDSService {
     	
     	NodeList memberships = (NodeList)xpath.evaluate("//dsml:attr[@name='isMemberOf']/dsml:value", document, XPathConstants.NODESET);
     	int membershipCount = memberships.getLength();
-    	System.out.println("# memberships = " + membershipCount);
+    	logger.info("for {} # memberships = '{}'", req, membershipCount);
+    	
     	HashMap<String, Integer> membershipMap = edsConfig.getMembershipToCourseIdMap();
     	ArrayList<EDSCourse> courses = new ArrayList<EDSCourse>();
     	for (int i = 0; i < membershipCount; i++) {
@@ -187,11 +188,10 @@ public class EDSService {
 
             HttpGet httpget = new HttpGet(request);
             
-            System.out.println("Executing request " + httpget.getRequestLine() + " to target " + target);
+            logger.info("Executing request " + httpget.getRequestLine() + " to target " + target);
             CloseableHttpResponse response = httpclient.execute(target, httpget, localContext);
             try {
-                System.out.println("----------------------------------------");
-                System.out.println(response.getStatusLine());
+                logger.info("response.getStatusLine() = {}", response.getStatusLine());
                 //EntityUtils.consume(response.getEntity());
                 String result = EntityUtils.toString(response.getEntity());
                 return result;

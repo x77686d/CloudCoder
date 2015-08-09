@@ -13,7 +13,7 @@ public class EDSTest {
 
 		logger.info("This is from EDSTest");
 
-		EDSService edsService = new EDSService();
+		IEDSService edsService = new EDSService();
 		if (args.length == 0)
 			args = new String[] {"jmajor564"};
 

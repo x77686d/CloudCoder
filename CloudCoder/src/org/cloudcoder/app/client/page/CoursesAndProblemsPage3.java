@@ -108,9 +108,11 @@ public class CoursesAndProblemsPage3 extends CloudCoderPage {
 			IsWidget account = createAccountTab();
 			panel.add(account, "Account");
 			
-			// Playground tab
-			IsWidget playground = createPlaygroundTab();
-			panel.add(playground, "Playground");
+			if (false) {  // Playground runs code as JAVA_PROGRAM.  For now, disable the playground.
+				// Playground tab
+				IsWidget playground = createPlaygroundTab();
+				panel.add(playground, "Playground");
+			}
 			
 			full.add(panel);
 			full.setWidgetLeftRight(panel, 0.0, Unit.PX, 0.0, Unit.PX);

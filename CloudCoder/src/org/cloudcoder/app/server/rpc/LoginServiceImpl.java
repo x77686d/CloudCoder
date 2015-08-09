@@ -51,6 +51,7 @@ import edu.arizona.cs.practice.EDSConfig;
 import edu.arizona.cs.practice.EDSCourse;
 import edu.arizona.cs.practice.EDSData;
 import edu.arizona.cs.practice.EDSService;
+import edu.arizona.cs.practice.OfflineEDSService;
 
 /**
  * Implementation of {@link LoginService}.
@@ -77,8 +78,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 
     /**
      * Default session timeout in seconds.  Defaults to 30 minutes.
+     * --let's make it two hours until we fix that timeout dialog
      */
-    private static final int SESSION_TIMEOUT_IN_SECONDS = 30 * 60;
+    private static final int SESSION_TIMEOUT_IN_SECONDS = 120 * 60;
     
     @Override
     public LoginSpec getLoginSpec() {
@@ -214,7 +216,8 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			//
 			// Get their data from UA's enterprise data services
 			EDSConfig edsConfig = new EDSConfig(DBUtil.getConfigProperties());
-			EDSData edsData = new EDSService().getData(netid, edsConfig);
+			//EDSData edsData = new EDSService().getData(netid, edsConfig);
+			EDSData edsData = new OfflineEDSService().getData(netid, edsConfig);
 			logger.info("EDSData for {} = {}", netid, edsData);
 			
 			ArrayList<EDSCourse> courses = edsData.getCourses();

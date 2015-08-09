@@ -156,7 +156,7 @@ public class DevelopmentPage2 extends CloudCoderPage {
 			
 			// Compiler diagnostic list view
 			this.compilerDiagnosticListView = new CompilerDiagnosticListView();
-			addResultsTab(this.compilerDiagnosticListView, "Compiler errors");
+			addResultsTab(this.compilerDiagnosticListView, "Compiler errors(2)");
 
 			// Workaround for http://code.google.com/p/google-web-toolkit/issues/detail?id=7065
 			resultsTabPanel.addSelectionHandler(new SelectionHandler<Integer>() {

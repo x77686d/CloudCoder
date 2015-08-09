@@ -70,7 +70,7 @@ public class LoggedOutPage2 extends CloudCoderPage {
             
             vp.add(new HTML("<span class=cc-pageTitle>You have logged out of CloudCoder</span>"));
             vp.add(new HTML("<a href='https://webauth.arizona.edu/webauth/logout'>Log out of WebAuth, too<a>"));
-            vp.add(new HTML("<a href='https://practice.cs.arizona.edu'>Login to CloudCoder Again<a>"));
+            vp.add(new HTML("<a href='https://practice.cs.arizona.edu'>Login to CloudCoder again<a>"));
             add(vp);
 
 		}

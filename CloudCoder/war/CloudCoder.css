@@ -329,3 +329,10 @@
 .gwt-TimeBox-menu {
 	z-index: 1002 !important;
 }
+
+/* ACE specifies 'cursor: text' but with the default theme, which I haven't looked into changeing,
+  you get on gray-on-black I-beam, which is hard to see (I think)
+  */
+.ace_content {
+	cursor: default !important 
+}

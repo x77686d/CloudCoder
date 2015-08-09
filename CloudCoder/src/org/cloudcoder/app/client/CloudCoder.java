@@ -323,7 +323,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 			// This shouldn't happen (can't find page for Activity),
 			// but if it does, go to the courses and problems page.
 			GWT.log("Don't know what kind of page to create for " + pageId);
-			page = new CoursesAndProblemsPage2();
+			page = new CoursesAndProblemsPage3();
 			break;
 		}
 		return page;

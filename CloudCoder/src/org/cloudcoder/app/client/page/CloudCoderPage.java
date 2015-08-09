@@ -27,6 +27,7 @@ import org.cloudcoder.app.client.model.Session;
 import org.cloudcoder.app.client.model.StatusMessage;
 import org.cloudcoder.app.client.rpc.RPC;
 import org.cloudcoder.app.client.view.SessionExpiredDialogBox;
+import org.cloudcoder.app.client.view.UAzSessionExpiredDialogBox;
 import org.cloudcoder.app.shared.model.Course;
 import org.cloudcoder.app.shared.model.CourseSelection;
 import org.cloudcoder.app.shared.model.ICallback;
@@ -96,7 +97,8 @@ public abstract class CloudCoderPage {
 			return;
 		}
 		
-		final SessionExpiredDialogBox dialog = new SessionExpiredDialogBox();
+		//final SessionExpiredDialogBox dialog = new SessionExpiredDialogBox();
+		final UAzSessionExpiredDialogBox dialog = new UAzSessionExpiredDialogBox();
 		
 		Runnable callback = new Runnable() {
 			@Override

@@ -17,27 +17,22 @@
 
 package org.cloudcoder.app.client.view;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Dialog box to show when an RPC call has failed because the user's
- * session has timed out.  Allows user to log in again and retry
- * the failed operation. 
+ * UAz variant of SessionExpiredDialogBox.  If their CloudCoder session has expired the WebAuth session
+ * is likely dead, too, so we just give a choice of returning to CloudCoder or being sure
+ * they're out of WebAuth, too.
+ * 
+ * To keep things simple we leave in some methods that CloudCoderPage is expecting in the interface.
  * 
  * @author David Hovemeyer
  */
-public class SessionExpiredDialogBox extends DialogBox {
+public class UAzSessionExpiredDialogBox extends DialogBox {
 	private PasswordTextBox passwordBox;
 	private Button loginButton;
 	private HTML errorLabel;
@@ -46,58 +41,19 @@ public class SessionExpiredDialogBox extends DialogBox {
 	/**
 	 * Constructor.
 	 */
-	public SessionExpiredDialogBox() {
+	public UAzSessionExpiredDialogBox() {
 		setTitle("Session has timed out");
 		setGlassEnabled(true);
-
-		FlowPanel panel = new FlowPanel();
 		
-		panel.add(new HTML("<p>Your CloudCoder session has timed out.  Click the<br />" +
-							"login button to return to CloudCoder.</p>"));
-		
-		FlowPanel passwordBoxAndLoginButtonPanel = new FlowPanel();
-		
-		passwordBoxAndLoginButtonPanel.add(new InlineLabel("Password: "));
-		
-		passwordBox = new PasswordTextBox();
-		passwordBox.setWidth("120px");
-		passwordBox.addKeyPressHandler(new KeyPressHandler() {
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-					attemptLogin();
-				}
-			}
-		});
-		passwordBoxAndLoginButtonPanel.add(passwordBox);
-		
-		passwordBoxAndLoginButtonPanel.add(new InlineHTML("&nbsp;"));
-		
-		loginButton = new Button("Log in");
-		loginButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				attemptLogin();
-			}
-		});
-		passwordBoxAndLoginButtonPanel.add(loginButton);
-		
-		errorLabel = new HTML("");
-		errorLabel.setStyleName("cc-errorText", true);
-		errorLabel.setHeight("24px"); // force the label to be visible even though initially blank
-		passwordBoxAndLoginButtonPanel.add(errorLabel);
-		
-		panel.add(passwordBoxAndLoginButtonPanel);
-
-		add(panel);
+		VerticalPanel vp = new VerticalPanel();
+        vp.setWidth("600px");
+        
+        vp.add(new HTML("<p>Your CloudCoder session has timed out.</p>"));
+        vp.add(new HTML("<a href='https://practice.cs.arizona.edu'>Return to CloudCoder<a>"));
+        vp.add(new HTML("<a href='https://webauth.arizona.edu/webauth/logout'>Log out of WebAuth<a>"));
+        add(vp);
 	}
 
-	private void attemptLogin() {
-		if (loginButtonHandler != null) {
-			loginButtonHandler.run();
-		}
-	}
-	
 	/**
 	 * Get the value entered in the password box.
 	 * 
@@ -131,7 +87,5 @@ public class SessionExpiredDialogBox extends DialogBox {
 	@Override
 	public void center() {
 		super.center();
-		passwordBox.setFocus(true);
 	}
 }
-

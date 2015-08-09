@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// First cut at a "logged out" page.  Didn't work and not sure why.  LoggedOutPage2 is what gets used. -- whm
+
 package org.cloudcoder.app.client.page;
 
 import org.cloudcoder.app.client.CloudCoder;
