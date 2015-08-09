@@ -19,6 +19,7 @@ package org.cloudcoder.app.client.rpc;
 
 import org.cloudcoder.app.shared.model.InitErrorException;
 import org.cloudcoder.app.shared.model.LoginSpec;
+import org.cloudcoder.app.shared.model.UAzLoginOutcome;
 import org.cloudcoder.app.shared.model.User;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -62,5 +63,5 @@ public interface LoginService extends RemoteService {
 	 */
 	public String[] getInitErrorList();
 
-	User loginWithTicket(String ticket);
+	UAzLoginOutcome loginWithTicket(String ticket);
 }

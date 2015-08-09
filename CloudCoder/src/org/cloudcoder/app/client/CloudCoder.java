@@ -35,6 +35,7 @@ import org.cloudcoder.app.client.page.PlaygroundPage;
 import org.cloudcoder.app.client.page.ProblemAdminPage;
 import org.cloudcoder.app.client.page.QuizPage;
 import org.cloudcoder.app.client.page.StatisticsPage;
+import org.cloudcoder.app.client.page.UAzLoginFailurePage;
 import org.cloudcoder.app.client.page.UserAccountPage2;
 import org.cloudcoder.app.client.page.UserAdminPage;
 import org.cloudcoder.app.client.page.UserProblemSubmissionsPage;
@@ -44,6 +45,7 @@ import org.cloudcoder.app.client.view.PageLoadErrorView;
 import org.cloudcoder.app.shared.model.ICallback;
 import org.cloudcoder.app.shared.model.InitErrorException;
 import org.cloudcoder.app.shared.model.Pair;
+import org.cloudcoder.app.shared.model.UAzLoginOutcome;
 import org.cloudcoder.app.shared.model.User;
 import org.cloudcoder.app.shared.util.DefaultSubscriptionRegistrar;
 import org.cloudcoder.app.shared.util.Publisher;
@@ -176,34 +178,40 @@ public class CloudCoder implements EntryPoint, Subscriber {
 						Window.Location.replace("https://webauth.arizona.edu/webauth/login?service=https://practice.cs.arizona.edu");
 					} else if (ticket != null) {
 						GWT.log("got a ticket: " + ticket);
-						RPC.loginService.loginWithTicket(ticket, new AsyncCallback<User>() {
+						RPC.loginService.loginWithTicket(ticket, new AsyncCallback<UAzLoginOutcome>() {
 							@Override
-							public void onSuccess(User result) {
+							public void onSuccess(UAzLoginOutcome result) {
 								// JUST A COPY OF CODE BELOW...
 								// User is logged in!
-								final User user = result;
-
-								// Add user to session
-								session.add(user);
+								final User user = result.getUser();
 								
-								CloudCoder.getInstance().createPostLoginPage(PageId.COURSES_AND_PROBLEMS, "");
-								
-								// Now we're logged in.  Hit the page again to clear the ticket= param
-								//Window.Location.replace("https://practice.cs.arizona.edu");
-								//Window.Location.replace(".");
-
-/*
-								// If a page id was specified as part of the original URL,
-								// try to navigate to it.
-								if (linkPageId != null) {
-									GWT.log("Already logged in, linking page " + linkPageId + ":" + linkPageParams);
-									CloudCoderPage page = createPageForPageId(linkPageId, linkPageParams);
-									changePage(page);
+								if (user != null) {
+									// Add user to session
+									session.add(user);
+									
+									CloudCoder.getInstance().createPostLoginPage(PageId.COURSES_AND_PROBLEMS, "");
+									
+									// Now we're logged in.  Hit the page again to clear the ticket= param
+									//Window.Location.replace("https://practice.cs.arizona.edu");
+									//Window.Location.replace(".");
+									
+									/*
+									// If a page id was specified as part of the original URL,
+									// try to navigate to it.
+									if (linkPageId != null) {
+										GWT.log("Already logged in, linking page " + linkPageId + ":" + linkPageParams);
+										CloudCoderPage page = createPageForPageId(linkPageId, linkPageParams);
+										changePage(page);
+									} else {
+										// Default behavior: navigate to the home page
+										changePage(new CoursesAndProblemsPage2());
+									}
+									 */
+									
 								} else {
-									// Default behavior: navigate to the home page
-									changePage(new CoursesAndProblemsPage2());
+									GWT.log("UAzLoginOutcome user is null; message is '" + result.getMessage() + "'");
+									changePage(new UAzLoginFailurePage(result.getMessage()));
 								}
-*/
 							}
 							@Override
 							public void onFailure(Throwable caught) {
@@ -226,7 +234,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 						changePage(page);
 					} else {
 						// Default behavior: navigate to the home page
-						changePage(new CoursesAndProblemsPage2());
+						changePage(new CoursesAndProblemsPage3()); // was Page2 -- whm
 					}
 				}
 			}

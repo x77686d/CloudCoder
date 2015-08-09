@@ -19,6 +19,7 @@
 package org.cloudcoder.app.client.rpc;
 
 import org.cloudcoder.app.shared.model.LoginSpec;
+import org.cloudcoder.app.shared.model.UAzLoginOutcome;
 import org.cloudcoder.app.shared.model.User;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -29,7 +30,7 @@ public interface LoginServiceAsync {
 
 	void login(String userName, String password, AsyncCallback<User> callback);
 	
-	void loginWithTicket(String ticket, AsyncCallback<User> callback);
+	void loginWithTicket(String ticket, AsyncCallback<UAzLoginOutcome> callback);
 
 	void logout(AsyncCallback<Void> callback);
 

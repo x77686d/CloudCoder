@@ -40,6 +40,7 @@ import org.cloudcoder.app.shared.model.ConfigurationSetting;
 import org.cloudcoder.app.shared.model.ConfigurationSettingName;
 import org.cloudcoder.app.shared.model.InitErrorException;
 import org.cloudcoder.app.shared.model.LoginSpec;
+import org.cloudcoder.app.shared.model.UAzLoginOutcome;
 import org.cloudcoder.app.shared.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,7 +178,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	}
 	
 	@Override
-	public User loginWithTicket(String ticket) {
+	public UAzLoginOutcome loginWithTicket(String ticket) {
 		logger.info("ticket = {}", ticket);
 		try {
 			String netid = null;
@@ -187,7 +188,12 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				String[] ticketParts = ticket.substring(1).split("/");
 				if (ticketParts[0].equals("yes")) {
 					netid = ticketParts[1];
+				} else {
+					String message = String.format("testMode validation produced '%s'. (WebAuth ticket might be expired.)", ticketParts[0]);
+					logger.info("login failure: {}", message);
+					return new UAzLoginOutcome(null, message);
 				}
+				
 				logger.info("TESTMODE ticket netid = {}", netid);
 			} else {
 
@@ -201,6 +207,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				if ("yes".equals(status)) {
 					netid = in.readLine();
 					logger.info("webauth line 2 (netid) = '{}'", netid);
+				} else {
+					in.close();
+					String message = String.format("WebAuth validation produced '%s'. (WebAuth ticket might be expired.)", status);
+					logger.info("login failure: {}", message);
+					return new UAzLoginOutcome(null, message);
 				}
 				in.close();
 			}
@@ -225,8 +236,10 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			if (courses.size() == 0 && user == null) {
 				//
 				// User doesn't exist and isn't taking any courses that use CC.
-				return null; // TODO really need some indication that what we've detected is that
-							 // that they're not registered for anything
+				String message = String.format("Hmm...  You don't appear to be registered for any courses using CloudCoder.  "
+						+ "Tell a TA or your instructor about this.  (netid='%s')", netid);
+				logger.info("login failure: {}", message);
+				return new UAzLoginOutcome(null, message); 
 			}
 			
 			if (courses.size() > 0  && user == null) {
@@ -267,8 +280,14 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 					maxInactive = 20;
 				}
 				session.setMaxInactiveInterval(maxInactive);
+				return new UAzLoginOutcome(user, "successful login");
+			} else {
+				String message = String.format("Oops!  Login failed for an unknown reason.  "
+						+ "Tell a TA or your instructor about this.  (netid='%s')", netid);
+				logger.info("login failure: {}", message);
+
+				return new UAzLoginOutcome(null, message); 
 			}
-			return user;
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
