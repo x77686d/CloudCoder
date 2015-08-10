@@ -18,53 +18,23 @@
 
 package org.cloudcoder.app.client.page;
 
-import org.cloudcoder.app.client.CloudCoder;
 import org.cloudcoder.app.client.model.PageId;
 import org.cloudcoder.app.client.model.PageStack;
 import org.cloudcoder.app.client.model.Session;
 import org.cloudcoder.app.client.rpc.RPC;
-import org.cloudcoder.app.client.view.ILoginView;
-import org.cloudcoder.app.client.view.PreauthorizedUserLoginView;
-import org.cloudcoder.app.client.view.UsernamePasswordLoginView;
 import org.cloudcoder.app.shared.model.LoginSpec;
-import org.cloudcoder.app.shared.model.User;
 import org.cloudcoder.app.shared.util.SubscriptionRegistrar;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-/**
- * Login page.
- */
 public class LoggedOutPage2 extends CloudCoderPage {
-	
-	/**
-	 * UI class for LoginPage.
-	 */
 	private class UI extends LayoutPanel implements SessionObserver {
-		private InlineLabel pageTitleLabel;
 		
 		public UI() {
-			/*
-			pageTitleLabel = new InlineLabel("");
-			pageTitleLabel.setStylePrimaryName("cc-pageTitle");
-			add(pageTitleLabel);
-			setWidgetLeftWidth(pageTitleLabel, 57.0, Unit.PX, 533.0, Unit.PX);
-			setWidgetTopHeight(pageTitleLabel, 44.0, Unit.PX, 31.0, Unit.PX);
-			InlineLabel loggedOutLabel = new InlineLabel("You have logged out of CloudCoder (2)");
-			loggedOutLabel.setStylePrimaryName("cc-pageTitle");
-			*/
-			
 			VerticalPanel vp = new VerticalPanel();
             vp.setWidth("600px");
             
@@ -90,13 +60,7 @@ public class LoggedOutPage2 extends CloudCoderPage {
 
 	}
 
-	/**
-	 * Default constructor.
-	 * Will take the user to the {@link CoursesAndProblemsPage2}
-	 * upon a successful login.
-	 */
 	public LoggedOutPage2() {
-		GWT.log("Creating LoginPage, fragment is " + Window.Location.getHash());
 	}
 	
 	/**

@@ -53,10 +53,7 @@ public class LoggedOutPage extends CloudCoderPage {
 	private static final double LOGIN_VIEW_WIDTH_PX = 340.0;
 	private static final double LOGIN_VIEW_HEIGHT_PX = 480.0;
 	private static final double LOGO_TOP_PX = 120.0;
-	
-	/**
-	 * UI class for LoginPage.
-	 */
+
 	private class UI extends LayoutPanel implements SessionObserver {
 		private InlineLabel pageTitleLabel;
 		private ILoginView loginView;

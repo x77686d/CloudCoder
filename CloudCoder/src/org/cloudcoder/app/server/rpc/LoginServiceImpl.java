@@ -164,6 +164,10 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		// of the webapp, throw an InitErrorException to let the client
 		// know to display a diagnostic page (that the cloudcoder admin
 		// can use to resolve the issue.)
+		
+		if (false) InitErrorList.instance().addError("testing init error in getUser");
+		if (false) throw new RuntimeException("testing");
+		
 		if (InitErrorList.instance().hasErrors()) {
 			throw new InitErrorException();
 		}
@@ -180,6 +184,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	@Override
 	public UAzLoginOutcome loginWithTicket(String ticket) {
 		logger.info("ticket = {}", ticket);
+		
+		if (false) throw new RuntimeException("test exception in loginWithTicket");
+		
 		try {
 			String netid = null;
 
@@ -215,9 +222,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 				}
 				in.close();
 			}
-			
-			if (netid == null)
-				return null;
 
 			//
 			// See if the user has an account

@@ -149,19 +149,23 @@ public class CloudCoder implements EntryPoint, Subscriber {
 				if (caught instanceof InitErrorException) {
 					changePage(new InitErrorPage());
 				} else {
+					// This else can be hit by throwing a RuntimeException in loginService.getUser
 					session.add(StatusMessage.error("Could not check for current login status: " + caught.getMessage()));
-					changePage(new LoginPage());
+					changePage(new UAzLoginFailurePage("loginService.getUser() failed for unknown reasons.  Try again to login to CloudCoder.  Let your TA or instructor know if the problem persists."));
 				}
 			}
 
 			@Override
 			public void onSuccess(User result) {
 				if (result == null) {
+					/*
+					 * login=yes in the URL forces the regular LoginPage to be shown.
+					 */
 					String loginParam = Window.Location.getParameter("login");
 					String ticket = Window.Location.getParameter("ticket");
 					GWT.log("in onSuccess(), ticket = " + ticket);
+					
 					if ("yes".equals(loginParam)) {
-						// Not logged in, so show LoginPage
 						LoginPage loginPage = new LoginPage();
 						if (linkPageId != null) {
 							GWT.log("Login page will redirect to " + linkPageId + ":" + linkPageParams);
@@ -215,6 +219,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 							}
 							@Override
 							public void onFailure(Throwable caught) {
+								changePage(new UAzLoginFailurePage("loginService.loginWithTicket() failed for unknown reasons.  Try again to login to CloudCoder.  Let your TA or instructor know if the problem persists."));
 							}
 
 						});
