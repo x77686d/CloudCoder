@@ -231,8 +231,8 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			//
 			// Get their data from UA's enterprise data services
 			EDSConfig edsConfig = new EDSConfig(DBUtil.getConfigProperties());
-			//EDSData edsData = new EDSService().getData(netid, edsConfig);
-			EDSData edsData = new OfflineEDSService().getData(netid, edsConfig);
+			EDSData edsData = new EDSService().getData(netid, edsConfig);
+			//EDSData edsData = new OfflineEDSService().getData(netid, edsConfig);
 			logger.info("EDSData for {} = {}", netid, edsData);
 			
 			ArrayList<EDSCourse> courses = edsData.getCourses();

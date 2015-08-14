@@ -151,6 +151,7 @@ public class CoursesAndProblemsPage2 extends CloudCoderPage {
 			eastPanel.setWidgetRightWidth(accountButton, 0.0, Unit.PX, 120.0, Unit.PX);
 			eastPanel.setWidgetTopHeight(accountButton, PageNavPanel.HEIGHT_PX, Style.Unit.PX, COURSE_AND_USER_ADMIN_BUTTON_HEIGHT_PX, Unit.PX);
 			
+			/*
 			Button playgroundButton=new Button("Playground");
             playgroundButton.addClickHandler(new ClickHandler() {
                 @Override
@@ -161,6 +162,7 @@ public class CoursesAndProblemsPage2 extends CloudCoderPage {
             eastPanel.add(playgroundButton);
             eastPanel.setWidgetRightWidth(playgroundButton, 0.0, Unit.PX, 120.0, Unit.PX);
             eastPanel.setWidgetTopHeight(playgroundButton, 2*PageNavPanel.HEIGHT_PX, Style.Unit.PX, COURSE_AND_USER_ADMIN_BUTTON_HEIGHT_PX, Unit.PX);
+            */
 
             // Put ExerciseSummaryView here, below the Playground Button
             this.exerciseSummaryView = new ExerciseSummaryView();
