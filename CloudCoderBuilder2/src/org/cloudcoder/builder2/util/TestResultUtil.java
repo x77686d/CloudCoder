@@ -307,6 +307,7 @@ public class TestResultUtil {
 	}
 
 	private static String quote(ProblemType problemType, String input, String actual) {
+		/*
 		if (problemType == ProblemType.PYTHON_FUNCTION) {
 			// FIXME: it would be nice to quote metacharacters here
 			if (input.startsWith("'")) {
@@ -314,7 +315,8 @@ public class TestResultUtil {
 			} else if (input.startsWith("\"")) {
 				actual = "\"" + actual + "\"";
 			}
-		}
+		}*/
+		
 		return actual;
 	}
 

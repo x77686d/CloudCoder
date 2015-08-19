@@ -96,7 +96,8 @@ public class AddPythonFunctionScaffoldingBuildStep implements IBuildStep {
 					"(" +t.getInput()+ ")\n");
 			test.append(indent(spaces)+"_expected=" + t.getOutput() + "\n");
 			test.append(indent(spaces)+"_result=(_expected == _output) if (type(_output) != float and type(_expected) != float) else (math.fabs(_output-_expected) < 0.00001)\n");
-			test.append(indent(spaces)+"return (_result, _output)\n");
+			//test.append(indent(spaces)+"return (_result, _output)\n");
+			test.append(indent(spaces)+"return (_result, repr(_output))\n");
 		}
 		
 		// Convert to string, determine epilogue length

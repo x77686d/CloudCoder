@@ -366,6 +366,8 @@ public class DevelopmentPage extends CloudCoderPage {
 				}
 			});
 			
+			/*
+			 * This was an attempt to make ctrl/cmd-s run the code but things were, in short, wonky.  (Try it and see!) -- whm
 			HandlerRegistration keyboardShortcutHandler = Event.addNativePreviewHandler(new 
 					NativePreviewHandler() { 
 					                        public void onPreviewNativeEvent(NativePreviewEvent event) {
@@ -380,7 +382,7 @@ public class DevelopmentPage extends CloudCoderPage {
 					                                } 
 					                        } 
 					                }); 
-
+			*/
 			
 			// Tell the server which problem we want to work on
 			setProblem(session, problem);

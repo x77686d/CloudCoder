@@ -56,7 +56,7 @@ public class DevActionsPanel2 extends Composite implements IDevActionsPanel {
 			}
 		});
 		
-		Button submitButton = new Button("Submit!");
+		Button submitButton = new Button("Run it!"); // was Submit! -- whm
 		submitButton.setStylePrimaryName("cc-emphButton");
 		panel.add(submitButton);
 		panel.setWidgetRightWidth(submitButton, 0.0, Unit.PX, SUBMIT_BUTTON_WIDTH_PX, Unit.PX);

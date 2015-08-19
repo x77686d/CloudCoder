@@ -44,7 +44,7 @@ public class DevActionsPanel extends ResizeComposite implements IDevActionsPanel
 	public DevActionsPanel() {
 		LayoutPanel layoutPanel = new LayoutPanel();
 		
-		Button submitButton = new Button("Submit!");
+		Button submitButton = new Button("Run it!"); // was Submit! -- whm
 		submitButton.setStylePrimaryName("cc-emphButton");
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override

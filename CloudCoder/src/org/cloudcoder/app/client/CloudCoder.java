@@ -1,6 +1,6 @@
 // CloudCoder - a web-based pedagogical programming environment
-// Copyright (C) 2011-2013, Jaime Spacco <jspacco@knox.edu>
-// Copyright (C) 2011-2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (C) 2011-2015, Jaime Spacco <jspacco@knox.edu>
+// Copyright (C) 2011-2015, David H. Hovemeyer <david.hovemeyer@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -23,7 +23,6 @@ import org.cloudcoder.app.client.model.PageStack;
 import org.cloudcoder.app.client.model.Session;
 import org.cloudcoder.app.client.model.StatusMessage;
 import org.cloudcoder.app.client.page.CloudCoderPage;
-import org.cloudcoder.app.client.page.CoursesAndProblemsPage2;
 import org.cloudcoder.app.client.page.CoursesAndProblemsPage3;
 import org.cloudcoder.app.client.page.DevelopmentPage;
 import org.cloudcoder.app.client.page.EditProblemPage;
@@ -36,7 +35,6 @@ import org.cloudcoder.app.client.page.ProblemAdminPage;
 import org.cloudcoder.app.client.page.QuizPage;
 import org.cloudcoder.app.client.page.StatisticsPage;
 import org.cloudcoder.app.client.page.UAzLoginFailurePage;
-import org.cloudcoder.app.client.page.UserAccountPage2;
 import org.cloudcoder.app.client.page.UserAdminPage;
 import org.cloudcoder.app.client.page.UserProblemSubmissionsPage;
 import org.cloudcoder.app.client.page.UserProgressPage;
@@ -239,7 +237,7 @@ public class CloudCoder implements EntryPoint, Subscriber {
 						changePage(page);
 					} else {
 						// Default behavior: navigate to the home page
-						changePage(new CoursesAndProblemsPage3()); // was Page2 -- whm
+						changePage(new CoursesAndProblemsPage3());
 					}
 				}
 			}
@@ -323,9 +321,9 @@ public class CloudCoder implements EntryPoint, Subscriber {
 		case QUIZ:
 			page = new QuizPage();
 			break;
-		case USER_ACCOUNT:
-			page = new UserAccountPage2();
-			break;
+//		case USER_ACCOUNT:
+//			page = new UserAccountPage2();
+//			break;
 		case USER_PROBLEM_SUBMISSIONS:
 			page = new UserProblemSubmissionsPage();
 			break;
