@@ -48,6 +48,7 @@ import org.cloudcoder.app.server.persist.txn.GetAllChangesNewerThan;
 import org.cloudcoder.app.server.persist.txn.GetAllSubmissionReceiptsForUserAndProblem;
 import org.cloudcoder.app.server.persist.txn.GetBestSubmissionReceiptsForProblem;
 import org.cloudcoder.app.server.persist.txn.GetBestSubmissionReceiptsForProblemForAuthenticatedUser;
+import org.cloudcoder.app.server.persist.txn.GetBestSubmissionReceiptsForProblemOnTime;
 import org.cloudcoder.app.server.persist.txn.GetChangeGivenChangeEventId;
 import org.cloudcoder.app.server.persist.txn.GetConfigurationSetting;
 import org.cloudcoder.app.server.persist.txn.GetCoursesForUser;
@@ -367,6 +368,12 @@ public class JDBCDatabase implements IDatabase {
 	public List<UserAndSubmissionReceipt> getBestSubmissionReceipts(
 			final Course unused, final int section, final Problem problem) {
 		return databaseRun(new GetBestSubmissionReceiptsForProblem(section, problem));
+	}
+
+	@Override
+	public List<UserAndSubmissionReceipt> getBestSubmissionReceiptsOnTime(
+			final Course unused, final int section, final Problem problem) {
+		return databaseRun(new GetBestSubmissionReceiptsForProblemOnTime(section, problem));
 	}
 
 	@Override

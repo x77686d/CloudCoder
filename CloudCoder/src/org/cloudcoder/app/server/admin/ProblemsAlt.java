@@ -42,14 +42,16 @@ import org.slf4j.LoggerFactory;
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
- * Servlet to retrieve information about problem submissions.
+ * This is a quick hack-up of Problems in this same package that has one purpose: summarizeStudentWorkOnProblem
+ * uses getBestSubmissionReceiptsOnTime instead of getBestSubmissionReceipts.  The ...OnTime version uses a query
+ * that excludes submissions that were after the due date of the problem.
  * 
- * @author David Hovemeyer
+ * @author David Hovemeyer, William Mitchell (whm at UA)
  */
-public class Problems extends HttpServlet {
+public class ProblemsAlt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(Problems.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProblemsAlt.class);
 
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -135,7 +137,7 @@ public class Problems extends HttpServlet {
 		String fileName = "course" + course.getId() + (section != 0 ? ("Section" + section) : "") + "Problem" + problem.getProblemId() + ".csv";
 		resp.addHeader("Content-disposition", "attachment;filename=" + fileName);
 
-		List<UserAndSubmissionReceipt> bestSubmissions = Database.getInstance().getBestSubmissionReceipts(course, section, problem);
+		List<UserAndSubmissionReceipt> bestSubmissions = Database.getInstance().getBestSubmissionReceiptsOnTime(course, section, problem);
 		
 		@SuppressWarnings("resource")
 		CSVWriter writer = new CSVWriter(resp.getWriter());

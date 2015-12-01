@@ -421,6 +421,11 @@ public interface IDatabase {
 	public List<UserAndSubmissionReceipt> getBestSubmissionReceipts(Course course, int section, Problem problem);
 
 	/**
+	 * Just like getBestSubmissionReceipts but requires submissions to be on/before the due date. -- whm
+	 */
+	public List<UserAndSubmissionReceipt> getBestSubmissionReceiptsOnTime(Course course, int section, Problem problem);
+
+	/**
 	 * Get best submission receipts for given {@link Problem}.
 	 * Returns empty list if the authenticated user is not an instructor
 	 * in the course in which the problem is assigned.
