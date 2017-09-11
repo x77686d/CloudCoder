@@ -118,8 +118,13 @@ public interface IDatabase {
 	public Problem getProblem(int problemId);
 	
 	public Change getMostRecentChange(User user, int problemId);
+	public Change getMostRecentChangeByDeadline(User user, int problemId);
+	
 	public Change getMostRecentFullTextChange(User user, int problemId);
+	public Change getMostRecentFullTextChangeByDeadline(User user, int problemId);
+	
 	public List<Change> getAllChangesNewerThan(User user, int problemId, int baseRev);
+	public List<Change> getAllChangesByDeadlineNewerThan(User user, int problemId, int baseRev);
 	
 	/**
 	 * Get all of the courses in which given user is registered.

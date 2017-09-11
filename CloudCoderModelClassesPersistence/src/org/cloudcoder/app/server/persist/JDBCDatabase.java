@@ -44,6 +44,7 @@ import org.cloudcoder.app.server.persist.txn.FindCurrentQuiz;
 import org.cloudcoder.app.server.persist.txn.FindUnfinishedQuizForStudent;
 import org.cloudcoder.app.server.persist.txn.FindUserRegistrationRequestGivenSecret;
 import org.cloudcoder.app.server.persist.txn.FindWorkSessions;
+import org.cloudcoder.app.server.persist.txn.GetAllChangesByDeadlineNewerThan;
 import org.cloudcoder.app.server.persist.txn.GetAllChangesNewerThan;
 import org.cloudcoder.app.server.persist.txn.GetAllSubmissionReceiptsForUserAndProblem;
 import org.cloudcoder.app.server.persist.txn.GetBestSubmissionReceiptsForProblem;
@@ -55,7 +56,9 @@ import org.cloudcoder.app.server.persist.txn.GetCoursesForUser;
 import org.cloudcoder.app.server.persist.txn.GetEventsWithChanges;
 import org.cloudcoder.app.server.persist.txn.GetModulesForCourse;
 import org.cloudcoder.app.server.persist.txn.GetMostRecentChangeForUserAndProblem;
+import org.cloudcoder.app.server.persist.txn.GetMostRecentChangeForUserAndProblemByDeadline;
 import org.cloudcoder.app.server.persist.txn.GetMostRecentFullTextChange;
+import org.cloudcoder.app.server.persist.txn.GetMostRecentFullTextChangeByDeadline;
 import org.cloudcoder.app.server.persist.txn.GetOrAddLatestSubmissionReceipt;
 import org.cloudcoder.app.server.persist.txn.GetProblemAndSubscriptionReceiptsForUserInCourse;
 import org.cloudcoder.app.server.persist.txn.GetProblemForProblemId;
@@ -193,8 +196,18 @@ public class JDBCDatabase implements IDatabase {
 	}
 	
 	@Override
+	public Change getMostRecentChangeByDeadline(final User user, final int problemId) {
+		return databaseRun(new GetMostRecentChangeForUserAndProblemByDeadline(problemId, user));
+	}
+	
+	@Override
 	public Change getMostRecentFullTextChange(final User user, final int problemId) {
 		return databaseRun(new GetMostRecentFullTextChange(problemId, user));
+	}
+	
+	@Override
+	public Change getMostRecentFullTextChangeByDeadline(final User user, final int problemId) {
+		return databaseRun(new GetMostRecentFullTextChangeByDeadline(problemId, user));
 	}
 	
 	@Override
@@ -205,6 +218,11 @@ public class JDBCDatabase implements IDatabase {
 	@Override
 	public List<Change> getAllChangesNewerThan(final User user, final int problemId, final int baseRev) {
 		return databaseRun(new GetAllChangesNewerThan(problemId, user, baseRev));
+	}
+	
+	@Override
+	public List<Change> getAllChangesByDeadlineNewerThan(final User user, final int problemId, final int baseRev) {
+		return databaseRun(new GetAllChangesByDeadlineNewerThan(problemId, user, baseRev));
 	}
 	
 	@Override
