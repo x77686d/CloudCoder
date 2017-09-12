@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ $# -lt 4 ]
+then
+    echo $0 COURSE-ID ASSIGNMENT PROBLEM-NAME1 ...
+    echo Example:
+    echo "  $0 13 20170909-test words_ending_with words_beginning_with primary_stress_position"
+    exit 1
+fi
+#
+# This hacky classpath needs to be cleaned up, but it works as-is!
+#
+java -cp bin:../CloudCoderModelClasses/bin:../CloudCoderModelClassesPersistence/bin:CloudCoderLogging/lib:../CloudCoderWebServer/cloudcoderApp.jar:../deps/mysql-connector-java-5.1.16.jar:../EDSService/bin edu.arizona.cs.practice.codeextraction.CodeExtractor $*
