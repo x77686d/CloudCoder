@@ -81,15 +81,15 @@ public class EDSService implements IEDSService {
     	String req;
     	req = "/people/" + netid;
     	String xml = queryEds(req, edsConfig);
-    	String xml2 = "<?xml version='1.0' encoding='UTF-8'?>"
+    	String xml2 = "<?xml version='1.0' encoding='UTF-8'?>" // test data, for debugging
     			+ "<dsml:dsml xmlns:dsml='http://www.dsml.org/DSML'>"
     			+ "<directory-entries>"
-	    			+ "<entry dn='uaid=112480514831,ou=People,dc=eds,dc=arizona,dc=edu'>"
+	    			+ "<entry dn='uaid=11248051431,ou=People,dc=eds,dc=arizona,dc=edu'>"
 		    			+ "<dsml:attr name='dateOfBirth'>"
 		    			+ "<value>18570101</value>"
 		    			+ "</dsml:attr>"
 	    			+ "</entry>"
-	    			+ "<entry dn='uaid=112480514831,ou=People,dc=eds,dc=arizona,dc=edu'>"
+	    			+ "<entry dn='uaid=11248051431,ou=People,dc=eds,dc=arizona,dc=edu'>"
 		    			+ "<dsml:attr name='weight'>"
 		    			+ "<value>175</value>"
 		    			+ "</dsml:attr>"
