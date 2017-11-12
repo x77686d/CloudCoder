@@ -118,7 +118,7 @@ public class ProblemsAlt extends HttpServlet {
 	}
 	
 	private static final String[] BEST_SUBMISSION_HEADER = new String[]{
-		"Lastname", "Firstname", "Username","Passed/Total", "Passed", "Total", "Percent",
+		"Lastname", "Firstname", "Username","Passed/Total", "Passed", "Total", "Percent", "Attempted"
 	};
 
 	/**
@@ -173,7 +173,8 @@ public class ProblemsAlt extends HttpServlet {
 			
 			entry.add(pair.getUser().getUsername());
 			
-			int numPassed = (pair.getReceipt() != null) ? pair.getReceipt().getNumTestsPassed() : 0;
+			boolean attempted = pair.getReceipt() != null; 
+			int numPassed = attempted ? pair.getReceipt().getNumTestsPassed() : 0;
 			
 			entry.add(String.valueOf(numPassed+" out of "+numTests));
 			
@@ -181,6 +182,7 @@ public class ProblemsAlt extends HttpServlet {
 			entry.add(String.valueOf(numTests));
 			double percent = (numTests > 0 ? ((double)numPassed / (double)numTests) : 0.0) * 100.0;
 			entry.add(String.format("%.2f", percent));
+			entry.add(attempted ? "y" : "n");
 			
 			writer.writeNext(entry.toArray(new String[entry.size()]));
 		}
