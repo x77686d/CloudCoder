@@ -30,23 +30,21 @@ import edu.arizona.cs.practice.EDSUtil;
 public class CodeExtractor {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         if (args.length < 3) {
-            System.err.println("Usage: java CodeExtractor COURSE-ID OUTPUT-DIRECTORY PROBLEM-NAME1 ...");
+            System.err.println("Usage: java CodeExtractor COURSE-ID COURSE-NUM SUFFIX OUTPUT-DIRECTORY PROBLEM-NAME1 ...");
             System.exit(1);
         }
         
         final String CLOUDCODER_ROOT = "/w/mse/cloudcoder";
         
-        final int FIRST_PROBLEM_NAME_INDEX = 2;
+        final int FIRST_PROBLEM_NAME_INDEX = 4;
 
         final int courseId = Integer.parseInt(args[0]);
         
-        final String courseNum = "120";
+        final String courseNum = args[1];
         
-        final String output_directory = args[1];
+        final String SUFFIX = args[2];	// todo: use problem type
         
-        final String SUFFIX = // todo: use problem type
-                    ".py"; // for 120
-                    // ".c";  // for 452
+        final String output_directory = args[3];
         
         Properties dbconfig = new Properties();
         dbconfig.load(new FileInputStream(CLOUDCODER_ROOT + "/src/UACloudCoderCodeExtractionService/CodeExtractionService.properties"));
