@@ -7,7 +7,7 @@ http://repo1.maven.org/maven2/com/google/guava/guava/13.0.1/guava-13.0.1.jar
 http://central.maven.org/maven2/log4j/log4j/1.2.16/log4j-1.2.16.jar
   CloudCoder/war/WEB-INF/lib/log4j-1.2.16.jar
   CloudCoderLogging/lib/log4j-1.2.16.jar
-http://owasp-java-html-sanitizer.googlecode.com/svn-history/r118/trunk/distrib/lib/owasp-java-html-sanitizer.jar
+http://central.maven.org/maven2/com/googlecode/owasp-java-html-sanitizer/owasp-java-html-sanitizer/r239/owasp-java-html-sanitizer-r239.jar
   CloudCoderLogging/lib/owasp-java-html-sanitizer.jar
 http://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar
   CloudCoderLogging/lib/slf4j-api-1.6.4.jar
