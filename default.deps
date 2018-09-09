@@ -90,7 +90,7 @@ http://download.eclipse.org/jetty/orbit/org.apache.taglibs.standard.glassfish_1.
   CloudCoderJetty/lib/jetty/jsp/org.apache.taglibs.standard.glassfish_1.2.0.v201004190952.jar
 http://repo1.maven.org/maven2/org/eclipse/jetty/jetty-jsp-2.1/7.4.4.v20110707/jetty-jsp-2.1-7.4.4.v20110707.jar
   CloudCoderJetty/lib/jetty/jsp/jetty-jsp-2.1-7.4.4.v20110707.jar
-http://json-simple.googlecode.com/files/json-simple-1.1.1.jar
+http://central.maven.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar
   CloudCoderModelClassesJSON/lib/json-simple-1.1.1.jar
   CloudCoder/war/WEB-INF/lib/json-simple-1.1.1.jar
   CloudCoderRepository/war/WEB-INF/lib/json-simple-1.1.1.jar
