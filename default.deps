@@ -140,7 +140,7 @@ http://central.maven.org/maven2/com/tractionsoftware/gwt-traction/1.5.8/gwt-trac
 #
 # Misc. libs for CloudCoderAnalysis
 #
-https://java-diff-utils.googlecode.com/files/diffutils-1.2.1.jar
+http://central.maven.org/maven2/com/googlecode/java-diff-utils/diffutils/1.2.1/diffutils-1.2.1.jar
   CloudCoderAnalysis/lib/diffutils-1.2.1.jar
 http://repo1.maven.org/maven2/org/ow2/asm/asm-all/4.1/asm-all-4.1.jar
   CloudCoderAnalysis/lib/asm-all-4.1.jar
