@@ -183,7 +183,7 @@ ${mirrorServiceEclipse371}/org.eclipse.text_3.5.101.r371_v20110810-0800.jar
 # CloudCoderDataAnalysis uses opencsv
 #
 opencsv_version=2.4
-https://opencsv.googlecode.com/files/opencsv-${opencsv_version}.jar
+http://central.maven.org/maven2/au/com/bytecode/opencsv/${opencsv_version}/opencsv-${opencsv_version}.jar
   CloudCoderDataAnalysis/lib/opencsv-${opencsv_version}.jar
 
 #
