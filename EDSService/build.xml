@@ -15,15 +15,9 @@
 	
 	  <path id="project.class.path">
 	        <!-- libs used by the webapp -->
-	  		<pathelement location="../CloudCoder/war/WEB-INF/lib/httpclient-4.5.jar"/>
-	  		<pathelement location="../CloudCoder/war/WEB-INF/lib/httpcore-4.4.1.jar"/>
-	  		<pathelement location="../CloudCoder/war/WEB-INF/lib/commons-codec-1.9.jar"/>
+	  		<pathelement location="lib/httpclient-4.5.jar"/>
+	  		<pathelement location="lib/httpcore-4.4.1.jar"/>
 	  		<pathelement location="../CloudCoderLogging/lib/slf4j-api-1.6.4.jar"/>
-	  	<!--
-	  	./CloudCoderLogging/lib/slf4j-api-1.6.4.jar
-	  	./CloudCoderLogging/lib/slf4j-log4j12-1.6.4.jar
-	  		<fileset dir="../CloudCoderLogging/lib" includes="*.jar"/>
-	  		-->
 	  </path>
 	
 	<target name="build" depends="init">
