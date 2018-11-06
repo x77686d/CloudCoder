@@ -56,7 +56,7 @@ public class PythonTutorView extends Composite {
 		
 		// See: https://github.com/pgbovine/OnlinePythonTutor/blob/master/v3/docs/embedding-HOWTO.md
 		HTML iframe = new HTML("<iframe width=\"" + width + "\" height=\"" + height + "\" frameborder=\"0\"" +
-				" src=\"http://pythontutor.com/iframe-embed.html#code=" + encodedScaffoldedCode + "&py=2\"></iframe>");
+				" src=\"https://pythontutor.com/iframe-embed.html#code=" + encodedScaffoldedCode + "&py=2\"></iframe>");
 		initWidget(iframe);
 	}
 
@@ -64,10 +64,12 @@ public class PythonTutorView extends Composite {
 		StringBuilder buf = new StringBuilder();
 		
 		buf.append(code);
-		buf.append("\n\n");
-		
+		buf.append("\n\n# To run a test other than 't0', add an *unindented* line like\n"
+				+ "# whichTest = 'tN'\n"
+				+ "# as the last line of your solution.\n\n");
+				
 		if (nonSecretTestCases.length > 0) {
-			buf.append("whichTest = '" + nonSecretTestCases[0].getTestCaseName() + "'\n");
+			buf.append("if 'whichTest' not in globals():\n\twhichTest = '" + nonSecretTestCases[0].getTestCaseName() + "'\n");
 			
 			for (TestCase tc : nonSecretTestCases) {
 				buf.append("\n");

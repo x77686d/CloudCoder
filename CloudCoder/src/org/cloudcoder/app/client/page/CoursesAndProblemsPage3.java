@@ -86,7 +86,7 @@ public class CoursesAndProblemsPage3 extends CloudCoderPage {
 		public UI() {
 			LayoutPanel full = new LayoutPanel();
 			
-			Label pageTitle = new Label("Welcome to CloudCoder!");
+			Label pageTitle = new Label("Welcome to CloudCoder! (UA v.1.1b)");
 			pageTitle.setStyleName("cc-pageTitle", true);
 			full.add(pageTitle);
 			full.setWidgetLeftRight(pageTitle, 0.0, Unit.PX, PageNavPanel.WIDTH_PX, Unit.PX);
