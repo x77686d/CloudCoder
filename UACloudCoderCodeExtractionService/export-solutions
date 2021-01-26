@@ -1,17 +1,22 @@
 #!/bin/bash
-if [ $# -lt 3 ]
+echo PWD: $(pwd)
+if [ $# -lt 4 ]
 then
-    echo Usage:
-    echo "  $0 COURSE-ID OUTPUT-DIRECTORY PROBLEM-NAME1 ..."
-    echo
+    echo $0 COURSE-ID ASSIGNMENT PROBLEM-NAME1 ...
     echo Example:
     echo "  $0 13 20170909-test words_ending_with words_beginning_with primary_stress_position"
     exit 1
 fi
-if [ -z "$CLOUDCODER_ROOT" ]
-then
-    echo Environment variable CLOUDCODER_ROOT must be set!
-    exit 1
-fi    
-src=$CLOUDCODER_ROOT/src
-java -cp $src/EDSService/bin:$src/UACloudCoderCodeExtractionService/bin:$src/CloudCoderWebServer/cloudcoderApp.jar:$src/CloudCoderModelClassesPersistence/cloudcoderModelClassesPersist.jar:$src/CloudCoderModelClasses/cloudcoderModelClasses.jar:$src/deps/mysql-connector-java-5.1.16.jar edu.arizona.cs.practice.codeextraction.CodeExtractor $*
+#
+# This hacky classpath needs to be cleaned up, but it works as-is!
+#
+java -cp bin:../CloudCoderModelClasses/bin:../CloudCoderModelClassesPersistence/bin:CloudCoderLogging/lib:../CloudCoderWebServer/cloudcoderApp.jar:../deps/mysql-connector-java-5.1.16.jar:../EDSService/bin edu.arizona.cs.practice.codeextraction.CodeExtractor $*
+
+# The code below was used when running export-solutions on whm's Mac, rather than on practice.
+#if [ -z "$CLOUDCODER_ROOT" ]
+#then
+#    echo Environment variable CLOUDCODER_ROOT must be set!
+#    exit 1
+#fi    
+#src=$CLOUDCODER_ROOT/src
+#java -cp $src/EDSService/bin:$src/UACloudCoderCodeExtractionService/bin:$src/CloudCoderWebServer/cloudcoderApp.jar:$src/CloudCoderModelClassesPersistence/cloudcoderModelClassesPersist.jar:$src/CloudCoderModelClasses/cloudcoderModelClasses.jar:$src/deps/mysql-connector-java-5.1.16.jar edu.arizona.cs.practice.codeextraction.CodeExtractor $*
