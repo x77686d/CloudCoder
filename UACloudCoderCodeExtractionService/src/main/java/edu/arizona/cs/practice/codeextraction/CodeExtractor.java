@@ -30,25 +30,25 @@ import edu.arizona.cs.practice.EDSUtil;
 public class CodeExtractor {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         if (args.length < 3) {
-            System.err.println("Usage: java CodeExtractor COURSE-DBID COURSE-NUM SUFFIX OUTPUT-DIRECTORY PROBLEM-NAME1 ...");
-            System.err.println("Example: 20 120 .py test ith_element_is_in_correct_list");
+            System.err.println("Usage: java CodeExtractor COURSE-ID COURSE-NUM SUFFIX OUTPUT-DIRECTORY PROBLEM-NAME1 ...");
             System.exit(1);
         }
         
-        final String CLOUDCODER_ROOT = "/w/mse/cloudcoder";
-        
-        final int courseId = Integer.parseInt(args[0]); // database id
-        
-        final String courseNum = args[1]; // Like 120 or 453
-        
-        final String SUFFIX = args[2];	// Like .py (todo: use problem type)
-        
-        final String output_directory = args[3];
+        final String CLOUDCODER_ROOT = "/home/ubuntu/cloudcoder";
         
         final int FIRST_PROBLEM_NAME_INDEX = 4;
 
+        final int courseId = Integer.parseInt(args[0]);
+        
+        final String courseNum = args[1];
+        
+        final String SUFFIX = args[2];	// todo: use problem type
+        
+        final String output_directory = args[3];
+        
         Properties dbconfig = new Properties();
-        dbconfig.load(new FileInputStream(CLOUDCODER_ROOT + "/src/UACloudCoderCodeExtractionService/CodeExtractionService.properties"));
+        //dbconfig.load(new FileInputStream(CLOUDCODER_ROOT + "/src/UACloudCoderCodeExtractionService/CodeExtractionService.properties"));
+        dbconfig.load(new FileInputStream(CLOUDCODER_ROOT + "/CodeExtractionService.properties"));
         JDBCDatabaseConfig.createFromProperties(dbconfig);
 
         IDatabase db = Database.getInstance();
@@ -68,7 +68,7 @@ public class CodeExtractor {
         }
         System.out.format("Found course: %s\n", course);
         
-        ArrayList<Integer> problemIds = new ArrayList<>();
+        ArrayList<Integer> problemIds = new ArrayList<Integer>();
 findProblem:
         for (int i = FIRST_PROBLEM_NAME_INDEX; i < args.length; i++) {
             for (Problem problem: db.getProblemsInCourse(whm, course).getProblemList()) {
@@ -85,8 +85,7 @@ findProblem:
         System.out.println("Problem ids:" + problemIds);
         
         Integer sections[] = db.getSectionsForCourse(course, whm);
-        // sections = new Integer[]{ 107 }; // for debugging
-        	// select section from cc_course_registrations,cc_users where cc_course_registrations.user_id=cc_users.id and cc_users.username='XXX';
+        //Integer sections[] = { 207 };
         
         String root = String.format(CLOUDCODER_ROOT + "/extracted/%s/%s/", courseNum, output_directory);
 
@@ -97,9 +96,10 @@ findProblem:
                     sectionNum);
 
             for (User student : students) {
-            	/*
+                /*
                 String[] users = 
-                    { "USER1", "USER2" };
+                    //{"li4","mgold1"};
+                    { "mgold1" };
                 if (!find(users, student.getUsername())) // FOR TESTING
                     continue;
                  */
